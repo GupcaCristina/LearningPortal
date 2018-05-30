@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using LearningPortal.Web.Data;
+using LearningPortal.DAL.EF;
+
 using LearningPortal.Web.Models;
 using LearningPortal.Web.Services;
 
@@ -26,11 +27,11 @@ namespace LearningPortal.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<LearningPortalContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<LearningPortalContext>()
                 .AddDefaultTokenProviders();
 
             // Add application services.
