@@ -185,6 +185,21 @@ namespace LearningPortal.DAL.Migrations
                     b.ToTable("Hobbies");
                 });
 
+            modelBuilder.Entity("LearningPortal.Domain.Skill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte[]>("ProfileImage");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Skills");
+                });
+
             modelBuilder.Entity("LearningPortal.Domain.Street", b =>
                 {
                     b.Property<int>("Id")
@@ -201,6 +216,32 @@ namespace LearningPortal.DAL.Migrations
                     b.HasIndex("CityID");
 
                     b.ToTable("Streets");
+                });
+
+            modelBuilder.Entity("LearningPortal.Domain.UserHobbie", b =>
+                {
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int>("HobbieId");
+
+                    b.HasKey("ApplicationUserId", "HobbieId");
+
+                    b.HasIndex("HobbieId");
+
+                    b.ToTable("UserHobbies");
+                });
+
+            modelBuilder.Entity("LearningPortal.Domain.UserSkill", b =>
+                {
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int>("SkillId");
+
+                    b.HasKey("ApplicationUserId", "SkillId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("UserSkills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -341,6 +382,32 @@ namespace LearningPortal.DAL.Migrations
                     b.HasOne("LearningPortal.Domain.City", "City")
                         .WithMany()
                         .HasForeignKey("CityID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LearningPortal.Domain.UserHobbie", b =>
+                {
+                    b.HasOne("LearningPortal.Domain.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserHobbies")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LearningPortal.Domain.Hobbie", "Hobbie")
+                        .WithMany("UserHobbies")
+                        .HasForeignKey("HobbieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LearningPortal.Domain.UserSkill", b =>
+                {
+                    b.HasOne("LearningPortal.Domain.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserSkills")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LearningPortal.Domain.Skill", "Skill")
+                        .WithMany("UserSkills")
+                        .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

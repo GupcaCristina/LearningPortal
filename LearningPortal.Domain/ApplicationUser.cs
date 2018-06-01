@@ -23,9 +23,8 @@ namespace LearningPortal.Domain
         public Address Address { get; set; }
         public byte[] ProfileImage { get; set; }
 
-        public List<Hobbie> Hobbies = new List<Hobbie>();
         public List<EducationalQualification> Education = new List<EducationalQualification>();
-
-
+        public List<UserHobbie> UserHobbies { get; set; }  = new List<UserHobbie>();
+        public List<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
     }
 }

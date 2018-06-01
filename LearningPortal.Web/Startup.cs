@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LearningPortal.DAL.EF;
-
-using LearningPortal.Web.Models;
+using LearningPortal.DAL.Interfaces;
+using LearningPortal.DAL.Repositories;
+using LearningPortal.Domain;
 using LearningPortal.Web.Services;
+using AutoMapper;
+using LearningPortal.BLL.Interfaces;
+using LearningPortal.BLL.Services;
+
 
 namespace LearningPortal.Web
 {
@@ -34,10 +35,19 @@ namespace LearningPortal.Web
                 .AddEntityFrameworkStores<LearningPortalContext>()
                 .AddDefaultTokenProviders();
 
+
             // Add application services.
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUserServices, UserServices>();
+
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddAutoMapper();
 
             services.AddMvc();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
